@@ -6,19 +6,28 @@
   home.stateVersion = "24.05";
 
   home.packages = with pkgs; [
-    hyprland eza fd ripgrep bat fzf zoxide coreutils moreutils
-    # tools your aliases/functions call
-    neovim git jq wl-clipboard unzip
-    # autostarted helpers:
-    networkmanagerapplet    # nm-applet
-    swaynotificationcenter  # swaync
-    hypridle hyprpaper hyprlock hyprshot
-    brightnessctl playerctl
-    glib                   # for 'gsettings' binary
-    xorg.xrandr            # for your force-detect bind
-    wofi                   
-    xfce4-power-manager
+    # Hyprland environment
+    hyprland
+    eww-wayland
+    waybar
+    wofi
+    kitty
+    ghostty
+  
+    # XFCE utilities (no full XFCE session)
+    xfce.thunar
+    xfce.xfce4-settings
+    xfce.xfce4-power-manager
+  
+    # Other helpers
+    pavucontrol
+    blueman
+    wl-clipboard
+  
+    # CLI/dev tools
+    neovim git ripgrep fd starship zsh fzf zoxide bat jq unzip
   ];
+
 
   programs.zsh.enable = true;
   programs.starship.enable = true;
