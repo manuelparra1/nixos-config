@@ -18,6 +18,9 @@
     xfce.thunar
     xfce.xfce4-settings
     xfce.xfce4-power-manager
+
+    # Browser
+    firefox
   
     # Other helpers
     pavucontrol
