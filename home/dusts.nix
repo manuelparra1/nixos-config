@@ -1,5 +1,5 @@
 # home/dusts.nix (keep it minimal)
-{ pkgs, dotfiles, ... }:
+{ pkgs, pkgsUnstable, dotfiles, ... }:
 {
   home.username = "dusts";
   home.homeDirectory = "/home/dusts";
