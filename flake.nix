@@ -24,7 +24,6 @@ in {
       { home-manager.users.dusts = import ./home/dusts.nix { inherit pkgs pkgsUnstable dotfiles; }; }
     ];
   };
-}
+};
 
 }
-
