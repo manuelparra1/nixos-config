@@ -85,8 +85,8 @@
       eval "$(starship init zsh)"
 
       # fzfvim function
-      fzfvim() {
-        local query="${1:-}"
+fzfvim() {
+        local query="\${1:-}"
         FZF_DEFAULT_COMMAND="fd -H --type f -e md -e lua -e txt -e sh -e py -e cpp -e json -e conf -e zshrc" \
         FZF_DEFAULT_OPTS="--preview 'bat --style=numbers --color=always {}' --bind 'change:reload:fd -H --type f -e md -e lua -e txt -e sh -e py -e cpp -e json -e conf -e zshrc {q} || true'" \
         fzf --ansi --phony --query="$query" --exit-0 | while IFS= read -r file; do
@@ -96,7 +96,7 @@
 
       # livegrep function (your version with smarter preview/jump)
       livegrep() {
-        local search_dir="${1:-.}"
+        local search_dir="\${1:-.}"
         FZF_DEFAULT_COMMAND="fd -H --type f -e md -e lua -e txt -e sh -e py -e cpp -e json -e conf -e zshrc -e js -e ts -e html -e css -e yml -e yaml -e xml -e toml -e ini -e cfg -e log -e sql -e rs -e go -e java -e c -e h -e rb -e php -e pl -e vim -e rc" \
         fzf --phony --query '' \
           --bind "change:reload:sh -c '
@@ -110,7 +110,7 @@
           --delimiter ':' \
           --preview 'file={1}; last_word=$(echo {q} | awk "{print \$NF}"); if [ -n "$last_word" ]; then line=$(rg --line-number --no-heading --smart-case "$last_word" "$file" 2>/dev/null | head -n1 | cut -d: -f1); if [ -n "$line" ]; then start_line=$((line - 5)); if [ $start_line -lt 1 ]; then start_line=1; fi; end_line=$((line + 45)); bat --style=numbers --color=always --highlight-line "$line" --line-range "$start_line:$end_line" "$file" 2>/dev/null; else bat --style=numbers --color=always "$file" 2>/dev/null; fi; else bat --style=numbers --color=always "$file" 2>/dev/null; fi' \
           --preview-window 'right:50%:wrap' \
-          --bind 'enter:execute:last_word=$(echo {q} | awk "{print \$NF}"); if [ -n "$last_word" ]; then line=$(rg --line-number --no-heading --smart-case "$last_word" {1} 2>/dev/null | head -n1 | cut -d: -f1); nvim "+${line:-1}" {1}; else nvim {1}; fi'
+          --bind 'enter:execute:last_word=$(echo {q} | awk "{print \$NF}"); if [ -n "$last_word" ]; then line=$(rg --line-number --no-heading --smart-case "$last_word" {1} 2>/dev/null | head -n1 | cut -d: -f1); nvim "+\${line:-1}" {1}; else nvim {1}; fi'
       }
 
       # Conda on-demand (unchanged)

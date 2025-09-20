@@ -6,8 +6,11 @@
     home-manager.url = "github:nix-community/home-manager/release-24.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
-    # Your dotfiles (pinned via flake.lock)
-    dotfiles.url = "github:manuelparra1/dotfiles";
+    # dotfiles are a plain git repo (no flake.nix)
+    dotfiles = {
+       url = "github:manuelparra1/dotfiles";
+       flake = false;
+    };
   };
 
   outputs = { self, nixpkgs, home-manager, dotfiles, ... }:
