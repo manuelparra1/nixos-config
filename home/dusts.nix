@@ -8,11 +8,11 @@
   home.packages = with pkgs; [
     # Hyprland environment
     hyprland
-    eww-wayland
+    eww
     waybar
     wofi
     kitty
-    ghostty
+    (pkgsUnstable.ghostty)
   
     # XFCE utilities (no full XFCE session)
     xfce.thunar
