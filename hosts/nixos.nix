@@ -1,12 +1,25 @@
 { config, pkgs, ... }:
 {
+  imports = [
+    ./hardware-configuration.nix
+  ];
+
+  system.stateVersion = "24.05";
+
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
+  # Boot loader (EFI typical)
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
 
   users.users.dusts = {
     isNormalUser = true;
     extraGroups = [ "wheel" "networkmanager" "audio" "video" "bluetooth" ];
     shell = pkgs.zsh;
   };
+
+  # ZSH
+  programs.zsh.enable = true;
 
   # Wayland desktop
   programs.hyprland.enable = true;
