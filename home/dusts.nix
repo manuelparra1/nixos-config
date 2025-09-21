@@ -54,7 +54,7 @@
     enable = true;
     # This tells Home Manager's zsh module to add the following
     # text to the top of the .zshrc it generates.
-    initExtra = ''
+    initContent = ''
       # Source the .zshrc from your dotfiles repository
       if [[ -f "${dotfiles}/.zshrc" ]]; then
         source "${dotfiles}/.zshrc"
