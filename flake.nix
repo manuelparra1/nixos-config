@@ -47,7 +47,7 @@
           };
 
           home-manager.users.dusts = import ./home/dusts.nix;
-        }
+        };
       ];
     };
   };
