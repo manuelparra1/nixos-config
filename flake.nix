@@ -15,8 +15,12 @@
       flake = false;
     };
 
-    sops-nix.url = "github:Mic92/sops-nix";
-    sops-nix.inputs.nixpkgs.follows = "nixpkgs-unstable";
+    # Pin sops-nix to the branch compatible with nixos-24.05
+    sops-nix.url = "github:Mic92/sops-nix/release-24.05";
+    # Make it follow your stable nixpkgs, not unstable
+    sops-nix.inputs.nixpkgs.follows = "nixpkgs";
+
+
   };
 
   outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, dotfiles, sops-nix, ... }:
