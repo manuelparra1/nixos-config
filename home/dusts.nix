@@ -1,12 +1,6 @@
 # home/dusts.nix (keep it minimal)
-{ config, pkgs, inputs, ... }:
+{ config, pkgs, dotfiles, ... }:
 {
-
-  # SOPS Secret Management
-  imports = [
-    inputs.sops-nix.homeManagerModules.sops
-  ];
-
   home.username = "dusts";
   home.homeDirectory = "/home/dusts";
   home.stateVersion = "25.05";
@@ -57,25 +51,25 @@
 
   # your normal HM config ...
   # example: put wallpapers/fonts you keep in dotfiles
-  home.file."Pictures/Wallpapers".source = "${inputs.dotfiles}/Pictures/Wallpapers";
+  home.file."Pictures/Wallpapers".source = "${dotfiles}/Pictures/Wallpapers";
 
   # Pull your actual configs from the repo (no escaping headaches)
-  home.file.".zshrc".source           = "${inputs.dotfiles}/.zshrc";
-  xdg.configFile."zsh".source         = "${inputs.dotfiles}/.config/zsh";     # plugins etc.
-  xdg.configFile."nvim".source        = "${inputs.dotfiles}/.config/nvim";
-  xdg.configFile."hypr".source        = "${inputs.dotfiles}/.config/hypr";
-  xdg.configFile."eww".source         = "${inputs.dotfiles}/.config/eww";
-  xdg.configFile."kitty".source       = "${inputs.dotfiles}/.config/kitty";
+  home.file.".zshrc".source           = "${dotfiles}/.zshrc";
+  xdg.configFile."zsh".source         = "${dotfiles}/.config/zsh";     # plugins etc.
+  xdg.configFile."nvim".source        = "${dotfiles}/.config/nvim";
+  xdg.configFile."hypr".source        = "${dotfiles}/.config/hypr";
+  xdg.configFile."eww".source         = "${dotfiles}/.config/eww";
+  xdg.configFile."kitty".source       = "${dotfiles}/.config/kitty";
 
   # Scripts + PATH (if you keep scripts)
-  home.file.".bin".source = "${inputs.dotfiles}/.bin";
+  home.file.".bin".source = "${dotfiles}/.bin";
   home.file.".bin".recursive = true;
   home.sessionPath = [ "$HOME/.local/bin" "$HOME/.bin" "/mnt/c/bin" ];
 
   # Serets Management
   # =================
   # sops: point to your encrypted file inside dotfiles
-  sops.defaultSopsFile = "${inputs.dotfiles}/secrets.yaml";
+  sops.defaultSopsFile = "${dotfiles}/secrets.yaml";
   # if your Age key is in the default path you can omit the next line
   sops.age.keyFile = "/home/dusts/.config/sops/age/keys.txt";
 
