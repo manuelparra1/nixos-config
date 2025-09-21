@@ -35,24 +35,22 @@
         # Home Manager as a NixOS module
         home-manager.nixosModules.home-manager
         {
-          # Keep system (24.05) separate from HM pkgs
+          # HM should NOT reuse the system pkgs (we want unstable for HM)
           home-manager.useGlobalPkgs = false;
           home-manager.useUserPackages = true;
         
-          # 1) Provide args (pkgs from unstable + extras) to ALL HM modules safely
-          home-manager.sharedModules = [
-            {
-              _module.args = {
-                pkgs          = pkgsUnstable;  # ← HM's `pkgs` will be nixpkgs-unstable
-                pkgsUnstable  = pkgsUnstable;  # pass separately if you use it by name
-                dotfiles      = dotfiles;
-                sopsNix       = sops-nix;      # rename is fine; no hyphen in identifiers here
-              };
-            }
-          ];
+          # Give HM its own nixpkgs set (unstable)
+          home-manager.users.dusts = {
+            pkgs = pkgsUnstable;
+            imports = [ ./home/dusts.nix ];
+          };
         
-          # 2) Import your user’s HM config (no more _module.args here)
-          home-manager.users.dusts = import ./home/dusts.nix;
+          # Pass extra args your HM config expects
+          home-manager.extraSpecialArgs = {
+            pkgsUnstable = pkgsUnstable;
+            dotfiles     = dotfiles;
+            sopsNix      = sops-nix;
+          };
         }
       ];
     };
