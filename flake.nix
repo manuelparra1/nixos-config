@@ -8,15 +8,14 @@
     home-manager.url = "github:nix-community/home-manager/release-24.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
-    # keep your personal dotfiles repo (no flake)
+    # personal dotfiles repo (no flake)
     dotfiles = {
       url = "github:manuelparra1/dotfiles";
       flake = false;
     };
 
-    # add sops-nix
+    # sops-nix; make it follow unstable nixpkgs (needs buildGo124Module)
     sops-nix.url = "github:Mic92/sops-nix";
-
     sops-nix.inputs.nixpkgs.follows = "nixpkgs-unstable";
   };
 
@@ -28,26 +27,34 @@
   in {
     nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
       inherit system;
+
       modules = [
+        # your host module
         ./hosts/nixos.nix
 
+        # Home Manager as a NixOS module
         home-manager.nixosModules.home-manager
+
+        # HM configuration block
         {
+          # Use a separate (unstable) package set for HM to satisfy sops-nix & newer Neovim
           home-manager.useGlobalPkgs = false;
           home-manager.useUserPackages = true;
 
-          # Pass extra args (dotfiles, sops, unstable pkgs) to your HM module
+          # Configure the HM user
           home-manager.users.dusts = {
-          # Make HM itself use nixpkgs-unstable as its `pkgs`
-          _module.args = {
+            # Make HM itself use nixpkgs-unstable as pkgs
+            _module.args = {
               pkgs = pkgsUnstable;
               pkgsUnstable = pkgsUnstable;
               dotfiles = dotfiles;
-              sopsNix = sops-nix;
-          };
+              sopsNix = sops-nix;  # pass sops-nix to your HM module as 'sopsNix'
+            };
 
-          home-manager.users.dusts = import ./home/dusts.nix;
-        };
+            # Import your HM config file
+            imports = [ ./home/dusts.nix ];
+          };
+        }
       ];
     };
   };
