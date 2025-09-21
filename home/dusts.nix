@@ -38,7 +38,10 @@
     neovim git ripgrep fd starship zsh fzf zoxide bat jq unzip tree
 
     # ADD YOUR FONTS FROM NIXPKGS HERE
-    (nerdfonts.override { fonts = [ "JetBrainsMono" "FiraCode" "0xProto" ]; })
+    # Use the new nerd-fonts packages
+    nerd-fonts.jetbrains-mono
+    nerd-fonts.fira-code
+    nerd-fonts._0xproto
     font-awesome
   ];
 
