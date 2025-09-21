@@ -1,3 +1,5 @@
+# flake.nix
+
 {
   description = "NixOS + Home Manager for dusts";
 
@@ -6,15 +8,13 @@
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
 
     home-manager.url = "github:nix-community/home-manager/release-24.05";
-    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs-unstable";
 
-    # personal dotfiles repo (no flake)
     dotfiles = {
       url = "github:manuelparra1/dotfiles";
       flake = false;
     };
 
-    # sops-nix; make it follow unstable nixpkgs (needs buildGo124Module)
     sops-nix.url = "github:Mic92/sops-nix";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs-unstable";
   };
@@ -29,21 +29,18 @@
       inherit system;
 
       modules = [
-        # your host module
         ./hosts/nixos.nix
-
-        # Home Manager as a NixOS module
         home-manager.nixosModules.home-manager
         {
           # HM should NOT reuse the system pkgs (we want unstable for HM)
           home-manager.useGlobalPkgs = false;
           home-manager.useUserPackages = true;
-        
-          # Give HM its own nixpkgs set (unstable)
+
+          # Give HM its own user configuration
           home-manager.users.dusts = {
             imports = [ ./home/dusts.nix ];
           };
-        
+
           # Pass extra args your HM config expects
           home-manager.extraSpecialArgs = {
             pkgsUnstable = pkgsUnstable;
