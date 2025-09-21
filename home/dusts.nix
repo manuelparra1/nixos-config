@@ -46,7 +46,11 @@
   # Dotfile Settings
   # ================
   # ZSH
-  programs.zsh.enable = true;
+  programs.zsh = {
+    enable = true;
+    # Add this line to resolve the conflict
+    enableZshrc = false; 
+  };
   programs.starship.enable = true;
 
   # your normal HM config ...
