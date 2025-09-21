@@ -26,7 +26,14 @@
     pavucontrol
     blueman
     wl-clipboard
-  
+
+    # Keys
+    sops
+    age
+
+    # optional helpers
+    gnupg coreutils 
+
     # CLI/dev tools
     neovim git ripgrep fd starship zsh fzf zoxide bat jq unzip tree
 
