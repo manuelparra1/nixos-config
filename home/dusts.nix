@@ -42,7 +42,25 @@
     font-awesome
   ];
 
+  # Serets Management
+  # =================
+  # make sops-nix available at HM level
+  imports = [ sops-nix.homeManagerModules.sops ];
 
+  # your normal HM config ...
+  # example: put wallpapers/fonts you keep in dotfiles
+  home.file."Pictures/Wallpapers".source = "${dotfiles}/Pictures/Wallpapers";
+
+  # sops: point to your encrypted file inside dotfiles
+  sops.defaultSopsFile = "${dotfiles}/secrets.yaml";
+  # if your Age key is in the default path you can omit the next line
+  sops.age.keyFile = "/home/dusts/.config/sops/age/keys.txt";
+
+  # map individual keys
+  sops.secrets.openai_api_key = { key = "OPENAI_API_KEY"; };
+  sops.secrets.github_token   = { key = "GITHUB_TOKEN"; };
+
+  # ZSH
   programs.zsh.enable = true;
   programs.starship.enable = true;
 
