@@ -30,6 +30,10 @@
   services.blueman.enable = true;
   services.flatpak.enable = true;
 
+
+  # Time
+  time.timeZone = "America/Chicago";
+
   # PipeWire (recommended on NixOS)
   security.rtkit.enable = true;
   services.pipewire = {
