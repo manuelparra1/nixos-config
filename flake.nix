@@ -34,26 +34,25 @@
 
         # Home Manager as a NixOS module
         home-manager.nixosModules.home-manager
-
-        # HM configuration block
         {
-          # Use a separate (unstable) package set for HM to satisfy sops-nix & newer Neovim
+          # Keep system (24.05) separate from HM pkgs
           home-manager.useGlobalPkgs = false;
           home-manager.useUserPackages = true;
-
-          # Configure the HM user
-          home-manager.users.dusts = {
-            # Make HM itself use nixpkgs-unstable as pkgs
-            _module.args = {
-              pkgs = pkgsUnstable;
-              pkgsUnstable = pkgsUnstable;
-              dotfiles = dotfiles;
-              sopsNix = sops-nix;  # pass sops-nix to your HM module as 'sopsNix'
-            };
-
-            # Import your HM config file
-            imports = [ ./home/dusts.nix ];
-          };
+        
+          # 1) Provide args (pkgs from unstable + extras) to ALL HM modules safely
+          home-manager.sharedModules = [
+            {
+              _module.args = {
+                pkgs          = pkgsUnstable;  # ← HM's `pkgs` will be nixpkgs-unstable
+                pkgsUnstable  = pkgsUnstable;  # pass separately if you use it by name
+                dotfiles      = dotfiles;
+                sopsNix       = sops-nix;      # rename is fine; no hyphen in identifiers here
+              };
+            }
+          ];
+        
+          # 2) Import your user’s HM config (no more _module.args here)
+          home-manager.users.dusts = import ./home/dusts.nix;
         }
       ];
     };
