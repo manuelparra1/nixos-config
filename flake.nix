@@ -15,13 +15,9 @@
       flake = false;
     };
 
-    # Use the specific tag for sops-nix that matches NixOS 24.05
+    # CORRECTED ENTRY FOR SOPS-NIX
     sops-nix.url = "github:Mic92/sops-nix/v0.9.0";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
-
-
-
-
   };
 
   outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, dotfiles, sops-nix, ... }:
