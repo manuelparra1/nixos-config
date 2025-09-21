@@ -35,7 +35,8 @@
           home-manager.useUserPackages = true;
 
           home-manager.extraSpecialArgs = {
-            inherit pkgsUnstable dotfiles sops-nix;
+            inherit pkgsUnstable dotfiles;
+            sopsNix = sops-nix;
           };
 
           home-manager.users.dusts = import ./home/dusts.nix;

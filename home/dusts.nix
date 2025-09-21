@@ -1,5 +1,5 @@
 # home/dusts.nix (keep it minimal)
-{ pkgs, pkgsUnstable, dotfiles, ... }:
+{ config, pkgs, pkgsUnstable, dotfiles, sopsNix, ... }:
 {
   home.username = "dusts";
   home.homeDirectory = "/home/dusts";
@@ -45,7 +45,7 @@
   # Serets Management
   # =================
   # make sops-nix available at HM level
-  imports = [ sops-nix.homeManagerModules.sops ];
+  imports = [ sopsNix.homeManagerModules.sops ];
 
   # your normal HM config ...
   # example: put wallpapers/fonts you keep in dotfiles
