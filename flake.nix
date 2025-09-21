@@ -36,14 +36,14 @@
           home-manager.useGlobalPkgs = false;
           home-manager.useUserPackages = true;
 
-          # Make HM use the unstable package set:
-          home-manager.nixpkgs = {
-            pkgs = pkgsUnstable;
-          };
-
-          home-manager.extraSpecialArgs = {
-            inherit pkgsUnstable dotfiles;
-            sopsNix = sops-nix;
+          # Pass extra args (dotfiles, sops, unstable pkgs) to your HM module
+          home-manager.users.dusts = {
+          # Make HM itself use nixpkgs-unstable as its `pkgs`
+          _module.args = {
+              pkgs = pkgsUnstable;
+              pkgsUnstable = pkgsUnstable;
+              dotfiles = dotfiles;
+              sopsNix = sops-nix;
           };
 
           home-manager.users.dusts = import ./home/dusts.nix;
