@@ -46,10 +46,17 @@
   # Dotfile Settings
   # ================
   # ZSH
+  # ADD THIS CORRECT BLOCK
   programs.zsh = {
     enable = true;
-    # Add this line to resolve the conflict
-    enableZshrc = false; 
+    # This tells Home Manager's zsh module to add the following
+    # text to the top of the .zshrc it generates.
+    initExtra = ''
+      # Source the .zshrc from your dotfiles repository
+      if [[ -f "${dotfiles}/.zshrc" ]]; then
+        source "${dotfiles}/.zshrc"
+      fi
+    '';
   };
   programs.starship.enable = true;
 
@@ -58,7 +65,6 @@
   home.file."Pictures/Wallpapers".source = "${dotfiles}/Pictures/Wallpapers";
 
   # Pull your actual configs from the repo (no escaping headaches)
-  home.file.".zshrc".source           = "${dotfiles}/.zshrc";
   xdg.configFile."zsh".source         = "${dotfiles}/.config/zsh";     # plugins etc.
   xdg.configFile."nvim".source        = "${dotfiles}/.config/nvim";
   xdg.configFile."hypr".source        = "${dotfiles}/.config/hypr";
