@@ -41,25 +41,25 @@
         # Import sops-nix for system-wide secrets
         sops-nix.nixosModules.sops
 
-        # Home Manager module
-        home-manager.nixosModules.home-manager
-        {
-          home-manager = {
-            # This is the key: HM uses the system's pkgs (which is now unstable)
-            useGlobalPkgs = true;
-            useUserPackages = true;
-
-            # Your user configuration
-            users.dusts = {
-              imports = [ ./home/dusts.nix ];
-            };
-
-            # Pass dotfiles to your Home Manager config
-            extraSpecialArgs = {
-              inherit dotfiles;
-            };
-          };
-        }
+    # Home Manager module
+    home-manager.nixosModules.home-manager
+    {
+      home-manager = {
+        useGlobalPkgs = true;
+        useUserPackages = true;
+    
+        # Pass your dotfiles flake input to all home-manager modules
+        extraSpecialArgs = { inherit dotfiles; };
+    
+        users.dusts = {
+          # This is the key change: import everything for this user here
+          imports = [
+            ./home/dusts.nix
+            sops-nix.homeManagerModules.sops
+          ];
+        };
+      };
+    }
       ];
     };
   };
