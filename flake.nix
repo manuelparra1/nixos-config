@@ -16,6 +16,8 @@
 
     # add sops-nix
     sops-nix.url = "github:Mic92/sops-nix";
+
+    sops-nix.inputs.nixpkgs.follows = "nixpkgs-unstable";
   };
 
   outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, dotfiles, sops-nix, ... }:
