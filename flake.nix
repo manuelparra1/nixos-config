@@ -33,8 +33,13 @@
 
         home-manager.nixosModules.home-manager
         {
-          home-manager.useGlobalPkgs = true;
+          home-manager.useGlobalPkgs = false;
           home-manager.useUserPackages = true;
+
+          # Make HM use the unstable package set:
+          home-manager.nixpkgs = {
+            pkgs = pkgsUnstable;
+          }
 
           home-manager.extraSpecialArgs = {
             inherit pkgsUnstable dotfiles;
