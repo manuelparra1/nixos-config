@@ -15,10 +15,11 @@
       flake = false;
     };
 
-    # Pin sops-nix to the branch compatible with nixos-24.05
-    sops-nix.url = "github:Mic92/sops-nix/release-24.05";
-    # Make it follow your stable nixpkgs, not unstable
+    # Use the specific tag for sops-nix that matches NixOS 24.05
+    sops-nix.url = "github:Mic92/sops-nix/v0.9.0";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
+
+
 
 
   };
