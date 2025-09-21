@@ -1,52 +1,63 @@
-# flake.nix
-
 {
-  description = "NixOS + Home Manager for dusts";
+  description = "NixOS + Home Manager (Rolling Release) for dusts";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
-    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+    # 1. The Foundation: NixOS Unstable (your rolling release)
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
-    home-manager.url = "github:nix-community/home-manager/release-24.05";
-    home-manager.inputs.nixpkgs.follows = "nixpkgs-unstable";
+    # 2. Home Manager, using the main branch for compatibility
+    home-manager.url = "github:nix-community/home-manager";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs"; # <-- Makes HM use nixos-unstable
 
+    # 3. Sops-nix, using the main branch for compatibility
+    sops-nix.url = "github:Mic92/sops-nix";
+    sops-nix.inputs.nixpkgs.follows = "nixpkgs"; # <-- Makes sops-nix use nixos-unstable
+
+    # 4. Your dotfiles, unchanged
     dotfiles = {
       url = "github:manuelparra1/dotfiles";
       flake = false;
     };
-
-    # CORRECTED ENTRY FOR SOPS-NIX
-    sops-nix.url = "github:Mic92/sops-nix/v0.9.0";
-    sops-nix.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, dotfiles, sops-nix, ... }:
+  outputs = { self, nixpkgs, home-manager, sops-nix, dotfiles, ... }@inputs:
   let
     system = "x86_64-linux";
-    pkgs = import nixpkgs { inherit system; config.allowUnfree = true; };
-    pkgsUnstable = import nixpkgs-unstable { inherit system; config.allowUnfree = true; };
+    # Only one pkgs is needed now, and it's from nixos-unstable
+    pkgs = import nixpkgs {
+      inherit system;
+      config.allowUnfree = true;
+    };
   in {
     nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
       inherit system;
 
+      specialArgs = { inherit inputs; };
+
       modules = [
+        # Your host configuration
         ./hosts/nixos.nix
+
+        # Import sops-nix for system-wide secrets
+        sops-nix.nixosModules.sops
+
+        # Home Manager module
         home-manager.nixosModules.home-manager
         {
-          # HM should NOT reuse the system pkgs (we want unstable for HM)
-          home-manager.useGlobalPkgs = false;
-          home-manager.useUserPackages = true;
+          home-manager = {
+            # This is the key: HM uses the system's pkgs (which is now unstable)
+            useGlobalPkgs = true;
+            useUserPackages = true;
 
-          # Give HM its own user configuration
-          home-manager.users.dusts = {
-            imports = [ ./home/dusts.nix ];
-          };
+            # Your user configuration
+            users.dusts = {
+              imports = [ ./home/dusts.nix ];
+            };
 
-          # Pass extra args your HM config expects
-          home-manager.extraSpecialArgs = {
-            pkgsUnstable = pkgsUnstable;
-            dotfiles     = dotfiles;
-            sopsNix      = sops-nix;
+            # Pass dotfiles to your Home Manager config
+            extraSpecialArgs = {
+              inherit dotfiles;
+            };
           };
         }
       ];
