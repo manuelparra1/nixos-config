@@ -39,7 +39,7 @@
           # Make HM use the unstable package set:
           home-manager.nixpkgs = {
             pkgs = pkgsUnstable;
-          }
+          };
 
           home-manager.extraSpecialArgs = {
             inherit pkgsUnstable dotfiles;
