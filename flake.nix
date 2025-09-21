@@ -41,7 +41,6 @@
         
           # Give HM its own nixpkgs set (unstable)
           home-manager.users.dusts = {
-            pkgs = pkgsUnstable;
             imports = [ ./home/dusts.nix ];
           };
         
