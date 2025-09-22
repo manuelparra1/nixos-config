@@ -35,7 +35,7 @@
     age
 
     # optional helpers
-    gnupg coreutils 
+    gnupg coreutils gcc gnumake binutils pkg-config
 
     # CLI/dev tools
     neovim git ripgrep fd starship zsh fzf zoxide bat jq unzip tree
