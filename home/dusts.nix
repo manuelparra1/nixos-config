@@ -51,6 +51,15 @@
     font-awesome
   ];
 
+  # Make sure the share exists
+  home.file."aston/".source = null;  # creates ~/aston
+
+  services.syncthing = {
+    enable = true;
+    declarative = false;
+    tray.enable = false;
+  };
+
   # Dotfile Settings
   # ================
 
