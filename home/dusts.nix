@@ -51,8 +51,8 @@
     font-awesome
   ];
 
-  # Make sure the share exists
-  home.file."aston/".source = null;  # creates ~/aston
+  # Make sure the SyncThing share exists
+  home.file."aston/.keep".text = "";
 
   services.syncthing = {
     enable = true;
