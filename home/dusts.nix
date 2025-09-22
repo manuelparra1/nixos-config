@@ -35,13 +35,13 @@
     age
 
     # optional helpers
-    gnupg coreutils gcc gnumake binutils pkg-config
+    gnupg coreutils gcc gnumake binutils pkg-config nodejs yarn 
 
     # CLI/dev tools
     neovim git ripgrep fd starship zsh fzf zoxide bat jq unzip tree
 
     # languages
-    python3
+    python3Full
 
     # ADD YOUR FONTS FROM NIXPKGS HERE
     # Use the new nerd-fonts packages
