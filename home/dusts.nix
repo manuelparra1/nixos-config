@@ -34,9 +34,11 @@
     sops
     age
 
-    # CLI/dev tools
-    neovim git ripgrep fd starship zsh fzf zoxide bat jq unzip tree
-    gnupg coreutils gcc gnumake binutils pkg-config nodejs yarn 
+    # CLI Tools
+    neovim eza ripgrep fd starship zsh fzf zoxide bat jq unzip tree
+
+    # DEV Tools
+    gnupg git coreutils gcc gnumake binutils pkg-config nodejs yarn 
 
     # languages
     python3
