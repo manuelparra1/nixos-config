@@ -5,6 +5,9 @@
   home.homeDirectory = "/home/dusts";
   home.stateVersion = "25.05";
 
+  # SOPS Key Location
+  sops.age.keyFile = "/home/dusts/.config/sops/age/keys.txt";
+
   home.packages = with pkgs; [
     # Hyprland environment
     hyprland

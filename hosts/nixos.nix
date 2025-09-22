@@ -20,6 +20,7 @@
 
   # SSH
   services.openssh.enable = true;
+  programs.zsh.enable = true;
   sops.age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
 
   # Wayland desktop
