@@ -54,24 +54,22 @@
   # ADD THIS CORRECT BLOCK
   programs.zsh = {
     enable = true;
-    # This tells Home Manager's zsh module to add the following
-    # text to the top of the .zshrc it generates.
     initContent = ''
       # Export each API key by reading the sops-managed files at shell runtime.
       for k in OPENAI_API_KEY OPENROUTER_API_KEY CEREBRAS_API_KEY GROK_API_KEY GROQ_API_KEY MISTRAL_API_KEY CODESTRAL_API_KEY DEEPSEEK_API_KEY; do
         f="${config.sops.secrets[$k].path}"
         if [[ -f "$f" ]]; then
-          # Shell-safe read (no trailing newline)
           export "$k"="$(<"$f")"
         fi
       done
-
+  
       # Source the .zshrc from your dotfiles repository
       if [[ -f "${dotfiles}/.zshrc" ]]; then
         source "${dotfiles}/.zshrc"
       fi
     '';
   };
+
   programs.starship.enable = true;
 
   # your normal HM config ...
