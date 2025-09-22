@@ -34,14 +34,12 @@
     sops
     age
 
-    # optional helpers
-    gnupg coreutils gcc gnumake binutils pkg-config nodejs yarn 
-
     # CLI/dev tools
     neovim git ripgrep fd starship zsh fzf zoxide bat jq unzip tree
+    gnupg coreutils gcc gnumake binutils pkg-config nodejs yarn 
 
     # languages
-    python3Full
+    python3
 
     # ADD YOUR FONTS FROM NIXPKGS HERE
     # Use the new nerd-fonts packages
@@ -102,6 +100,10 @@
   home.file.".bin".source = "${dotfiles}/.bin";
   home.file.".bin".recursive = true;
   home.sessionPath = [ "$HOME/.local/bin" "$HOME/.bin" "/mnt/c/bin" ];
+
+
+  # Load Home Dir Files
+  home.file.".dir_colors".source = "${dotfiles}/.dir_colors";
 
   # Serets Management
   # =================
