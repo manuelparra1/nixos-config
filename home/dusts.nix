@@ -56,7 +56,6 @@
 
   services.syncthing = {
     enable = true;
-    declarative = false;
     tray.enable = false;
   };
 
