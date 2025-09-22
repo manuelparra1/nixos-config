@@ -45,9 +45,6 @@
     font-awesome
   ];
 
-  # Enable the OpenSSH server
-  services.openssh.enable = true;
- 
   # This is the sops config from the previous step
   sops.age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
 

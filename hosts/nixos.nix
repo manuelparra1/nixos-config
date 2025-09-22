@@ -20,6 +20,7 @@
 
   # ZSH
   programs.zsh.enable = true;
+  services.openssh.enable = true;
 
   # Wayland desktop
   programs.hyprland.enable = true;
