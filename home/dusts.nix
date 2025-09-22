@@ -60,6 +60,12 @@
     # This tells Home Manager's zsh module to add the following
     # text to the top of the .zshrc it generates.
     initContent = ''
+      # Source environment variables from sops
+      # Note: The path is an attribute from the sops config below
+      if [[ -f "${config.sops.secrets."api-keys".path}" ]]; then
+        source "${config.sops.secrets."api-keys".path}"
+      fi
+
       # Source the .zshrc from your dotfiles repository
       if [[ -f "${dotfiles}/.zshrc" ]]; then
         source "${dotfiles}/.zshrc"
@@ -99,9 +105,4 @@
     format = "dotenv";
     sopsFile = "${dotfiles}/secrets.yaml";
   };
-  
-  # 2. Tell Home Manager to source that file to create session variables.
-  home.sessionVariablesFrom = [
-    config.sops.secrets."api-keys".path
-  ];
 }
