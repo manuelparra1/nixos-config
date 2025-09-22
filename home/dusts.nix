@@ -57,11 +57,14 @@
     # This tells Home Manager's zsh module to add the following
     # text to the top of the .zshrc it generates.
     initContent = ''
-      # Source environment variables from sops
-      # Note: The path is an attribute from the sops config below
-      if [[ -f "${config.sops.secrets."api-keys".path}" ]]; then
-        source "${config.sops.secrets."api-keys".path}"
-      fi
+      # Export each API key by reading the sops-managed files at shell runtime.
+      for k in OPENAI_API_KEY OPENROUTER_API_KEY CEREBRAS_API_KEY GROK_API_KEY GROQ_API_KEY MISTRAL_API_KEY CODESTRAL_API_KEY DEEPSEEK_API_KEY; do
+        f="${config.sops.secrets[$k].path}"
+        if [[ -f "$f" ]]; then
+          # Shell-safe read (no trailing newline)
+          export "$k"="$(<"$f")"
+        fi
+      done
 
       # Source the .zshrc from your dotfiles repository
       if [[ -f "${dotfiles}/.zshrc" ]]; then
@@ -91,8 +94,6 @@
   # =================
   # sops: point to your encrypted file inside dotfiles
   sops.defaultSopsFile = "${dotfiles}/secrets.yaml";
-  # if your Age key is in the default path you can omit the next line
-  sops.age.keyFile = "/home/dusts/.config/sops/age/keys.txt";
 
   # 1. Define each secret you want to extract from the YAML file.
   #    The name of the secret here must match the key in secrets.yaml.
@@ -105,17 +106,5 @@
     MISTRAL_API_KEY   = {};
     CODESTRAL_API_KEY = {};
     DEEPSEEK_API_KEY  = {};
-  };
-  
-  # 2. Create environment variables by reading the content of each secret file.
-  home.sessionVariables = {
-    OPENAI_API_KEY    = builtins.readFile config.sops.secrets.OPENAI_API_KEY.path;
-    OPENROUTER_API_KEY= builtins.readFile config.sops.secrets.OPENROUTER_API_KEY.path;
-    CEREBRAS_API_KEY  = builtins.readFile config.sops.secrets.CEREBRAS_API_KEY.path;
-    GROK_API_KEY      = builtins.readFile config.sops.secrets.GROK_API_KEY.path;
-    GROQ_API_KEY      = builtins.readFile config.sops.secrets.GROQ_API_KEY.path;
-    MISTRAL_API_KEY   = builtins.readFile config.sops.secrets.MISTRAL_API_KEY.path;
-    CODESTRAL_API_KEY = builtins.readFile config.sops.secrets.CODESTRAL_API_KEY.path;
-    DEEPSEEK_API_KEY  = builtins.readFile config.sops.secrets.DEEPSEEK_API_KEY.path;
   };
 }
