@@ -45,6 +45,11 @@
     font-awesome
   ];
 
+  # Enable the OpenSSH server
+  services.openssh.enable = true;
+ 
+  # This is the sops config from the previous step
+  sops.age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
 
   # Dotfile Settings
   # ================
@@ -86,7 +91,17 @@
   # if your Age key is in the default path you can omit the next line
   sops.age.keyFile = "/home/dusts/.config/sops/age/keys.txt";
 
-  # map individual keys
-  sops.secrets.openai_api_key = { key = "OPENAI_API_KEY"; };
-  sops.secrets.github_token   = { key = "GITHUB_TOKEN"; };
+  # ADD these blocks to home/dusts.nix
+  
+  # 1. Tell sops-nix to create a single file in ".env" format
+  #    from your secrets.yaml. It will contain all the keys.
+  sops.secrets."api-keys" = {
+    format = "dotenv";
+    sopsFile = "${dotfiles}/secrets.yaml";
+  };
+  
+  # 2. Tell Home Manager to source that file to create session variables.
+  home.sessionVariablesFrom = [
+    config.sops.secrets."api-keys".path
+  ];
 }
