@@ -45,25 +45,34 @@
     font-awesome
   ];
 
-  # This is the sops config from the previous step
-  sops.age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
-
   # Dotfile Settings
   # ================
+
   # ZSH
-  # ADD THIS CORRECT BLOCK
   programs.zsh = {
     enable = true;
-    initContent = ''
-      # Export each API key by reading the sops-managed files at shell runtime.
-      for k in OPENAI_API_KEY OPENROUTER_API_KEY CEREBRAS_API_KEY GROK_API_KEY GROQ_API_KEY MISTRAL_API_KEY CODESTRAL_API_KEY DEEPSEEK_API_KEY; do
-        f="${config.sops.secrets[$k].path}"
-        if [[ -f "$f" ]]; then
-          export "$k"="$(<"$f")"
-        fi
-      done
+    initContent = let
+      # First, we define a list of all your secret names in Nix
+      secretNames = [
+        "OPENAI_API_KEY" "OPENROUTER_API_KEY" "CEREBRAS_API_KEY" "GROK_API_KEY"
+        "GROQ_API_KEY" "MISTRAL_API_KEY" "CODESTRAL_API_KEY" "DEEPSEEK_API_KEY"
+      ];
   
-      # Source the .zshrc from your dotfiles repository
+      # Then, we use Nix to loop over this list and generate an 'export' command for each secret
+      exportCommands = pkgs.lib.concatStringsSep "\n" (
+        map (name: ''
+          f="${config.sops.secrets."${name}".path}"
+          if [[ -f "$f" ]]; then
+            export "${name}"="$(<"$f")"
+          fi
+        '') secretNames
+      );
+    in
+    ''
+      # This injects the block of commands we just generated
+      ${exportCommands}
+      
+      # Source your custom .zshrc from your dotfiles repository
       if [[ -f "${dotfiles}/.zshrc" ]]; then
         source "${dotfiles}/.zshrc"
       fi
