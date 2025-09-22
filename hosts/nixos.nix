@@ -32,6 +32,17 @@
   services.blueman.enable = true;
   services.flatpak.enable = true;
 
+  # Mason Neovim Fix
+  programs.nix-ld.enable = true;
+
+  # Optional but helpful: add common libs Mason binaries expect.
+  # (You can start without this; add libs only if a tool still fails.)
+  programs.nix-ld.libraries = with pkgs; [
+    stdenv.cc.cc
+    zlib
+    openssl
+    libgcc
+  ];
 
   # Time
   time.timeZone = "America/Chicago";
