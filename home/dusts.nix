@@ -40,6 +40,9 @@
     # CLI/dev tools
     neovim git ripgrep fd starship zsh fzf zoxide bat jq unzip tree
 
+    # languages
+    python3
+
     # ADD YOUR FONTS FROM NIXPKGS HERE
     # Use the new nerd-fonts packages
     nerd-fonts.jetbrains-mono
