@@ -94,12 +94,28 @@
   # if your Age key is in the default path you can omit the next line
   sops.age.keyFile = "/home/dusts/.config/sops/age/keys.txt";
 
-  # ADD these blocks to home/dusts.nix
+  # 1. Define each secret you want to extract from the YAML file.
+  #    The name of the secret here must match the key in secrets.yaml.
+  sops.secrets = {
+    OPENAI_API_KEY    = {};
+    OPENROUTER_API_KEY= {};
+    CEREBRAS_API_KEY  = {};
+    GROK_API_KEY      = {};
+    GROQ_API_KEY      = {};
+    MISTRAL_API_KEY   = {};
+    CODESTRAL_API_KEY = {};
+    DEEPSEEK_API_KEY  = {};
+  };
   
-  # 1. Tell sops-nix to create a single file in ".env" format
-  #    from your secrets.yaml. It will contain all the keys.
-  sops.secrets."api-keys" = {
-    format = "dotenv";
-    sopsFile = "${dotfiles}/secrets.yaml";
+  # 2. Create environment variables by reading the content of each secret file.
+  home.sessionVariables = {
+    OPENAI_API_KEY    = builtins.readFile config.sops.secrets.OPENAI_API_KEY.path;
+    OPENROUTER_API_KEY= builtins.readFile config.sops.secrets.OPENROUTER_API_KEY.path;
+    CEREBRAS_API_KEY  = builtins.readFile config.sops.secrets.CEREBRAS_API_KEY.path;
+    GROK_API_KEY      = builtins.readFile config.sops.secrets.GROK_API_KEY.path;
+    GROQ_API_KEY      = builtins.readFile config.sops.secrets.GROQ_API_KEY.path;
+    MISTRAL_API_KEY   = builtins.readFile config.sops.secrets.MISTRAL_API_KEY.path;
+    CODESTRAL_API_KEY = builtins.readFile config.sops.secrets.CODESTRAL_API_KEY.path;
+    DEEPSEEK_API_KEY  = builtins.readFile config.sops.secrets.DEEPSEEK_API_KEY.path;
   };
 }
