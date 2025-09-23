@@ -33,9 +33,10 @@
     xfce.thunar
     xfce.xfce4-settings
     xfce.xfce4-power-manager
+    mousepad
 
-    # Browser
-    firefox
+    # User
+    firefox vlc deadbeef
   
     # Other helpers
     pavucontrol
