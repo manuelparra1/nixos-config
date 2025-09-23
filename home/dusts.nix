@@ -16,11 +16,11 @@
     wofi
     kitty
     ghostty
+    typora
   
     # Gnome Utilities
-    gnome.papers
+    papers
     loupe
-    typora
 
     # XFCE utilities (no full XFCE session)
     xfce.thunar
@@ -38,9 +38,6 @@
     # Keys
     sops
     age
-
-    # OS
-    exfat-utils
 
     # CLI Tools
     neovim eza ripgrep fd starship zsh fzf zoxide bat jq unzip tree
