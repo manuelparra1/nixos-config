@@ -111,6 +111,14 @@
   xdg.configFile."eww".source         = "${dotfiles}/.config/eww";
   xdg.configFile."kitty".source       = "${dotfiles}/.config/kitty";
 
+
+  xdg.dataFile = {
+  "themes".source = dotfiles + "/.local/share/themes";
+  "themes".recursive = true;
+  "icons".source = dotfiles + "/.local/share/icons"; 
+  "icons".recursive = true;
+  };
+
   # Scripts + PATH (if you keep scripts)
   home.file.".bin".source = "${dotfiles}/.bin";
   home.file.".bin".recursive = true;
