@@ -33,7 +33,7 @@
     xfce.thunar
     xfce.xfce4-settings
     xfce.xfce4-power-manager
-    mousepad
+    xfce.mousepad
 
     # User
     firefox vlc deadbeef
