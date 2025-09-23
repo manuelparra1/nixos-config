@@ -17,6 +17,11 @@
     kitty
     ghostty
   
+    # Gnome Utilities
+    gnome.papers
+    loupe
+    typora
+
     # XFCE utilities (no full XFCE session)
     xfce.thunar
     xfce.xfce4-settings
@@ -33,6 +38,9 @@
     # Keys
     sops
     age
+
+    # OS
+    exfat-utils
 
     # CLI Tools
     neovim eza ripgrep fd starship zsh fzf zoxide bat jq unzip tree

@@ -12,6 +12,9 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  # File System
+  boot.supportedFilesystems = [ "exfat" ];
+
   users.users.dusts = {
     isNormalUser = true;
     extraGroups = [ "wheel" "networkmanager" "audio" "video" "bluetooth" ];
