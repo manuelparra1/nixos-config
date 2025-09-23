@@ -11,10 +11,6 @@
   # Hyprland Wallpapers
   services.hyprpaper.enable = true;
 
-  # Themes
-  programs.xfconf.enable = true;
-  services.gvfs.enable = true;
-  services.tumbler.enable = true;
 
   home.packages = with pkgs; [
     # Hyprland environment

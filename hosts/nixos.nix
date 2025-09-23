@@ -11,6 +11,11 @@
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
+  # Themes
+  programs.xfconf.enable = true;
+  services.gvfs.enable = true;
+  services.tumbler.enable = true;
+
   # Boot loader (EFI typical)
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
