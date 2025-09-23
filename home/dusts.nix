@@ -8,6 +8,9 @@
   # SOPS Key Location
   sops.age.keyFile = "/home/dusts/.config/sops/age/keys.txt";
 
+  # Hyprland Wallpapers
+  services.hyprpaper.enable = true;
+
   home.packages = with pkgs; [
     # Hyprland environment
     hyprland
@@ -117,6 +120,8 @@
   "themes".recursive = true;
   "icons".source = dotfiles + "/.local/share/icons"; 
   "icons".recursive = true;
+  "fonts".source = dotfiles + "/.fonts";
+  "fonts".recursive = true;
   };
 
   # Scripts + PATH (if you keep scripts)
