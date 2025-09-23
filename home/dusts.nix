@@ -11,6 +11,11 @@
   # Hyprland Wallpapers
   services.hyprpaper.enable = true;
 
+  # Themes
+  programs.xfconf.enable = true;
+  services.gvfs.enable = true;
+  services.tumbler.enable = true;
+
   home.packages = with pkgs; [
     # Hyprland environment
     hyprland
@@ -24,6 +29,9 @@
     # Gnome Utilities
     papers
     loupe
+
+    # Themes
+    nwg-look
 
     # XFCE utilities (no full XFCE session)
     xfce.thunar
